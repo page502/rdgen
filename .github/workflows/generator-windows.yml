@@ -51,7 +51,7 @@ on:
       extras:
         description: "extra inputs in json"
         required: false
-        default: 'extras: {"genurl": "", "urlLink": "http://demo.com", "downloadLink": "http://demo.com", "delayFix": "true", "version": "1.4.4", "rdgen": "true", "cycleMonitor": "false", "xOffline": "false", "removeNewVersionNotif": "true", "compname": "Demo"}'
+        default: '{"genurl": "", "urlLink": "http://demo.com", "downloadLink": "http://demo.com", "delayFix": "true", "version": "1.4.4", "rdgen": "true", "cycleMonitor": "false", "xOffline": "false", "removeNewVersionNotif": "true", "compname": "Demo"}'
         type: string
 
 
