@@ -5,28 +5,28 @@ on:
     inputs:
       server:
         description: 'Rendezvous Server'
-        required: false
-        default: 'demo.me'
+        required: true
+        default: ''
         type: string
       key:
         description: 'Public Key'
-        required: false
-        default: 'hV7KcAVAMXKxJxx3vszXnmNooEBhRzrv6s4CWwjRbLM='
+        required: true
+        default: ''
         type: string
       apiServer:
         description: 'API Server'
-        required: false
-        default: 'http://demo.me:21114'
+        required: true
+        default: ''
         type: string
       custom:
         description: "Custom JSON"
-        required: false
-        default: 'eyJjb25uLXR5cGUiOiAiaW5jb21pbmciLCAiZGlzYWJsZS1zZXR0aW5ncyI6ICJZIiwgImFwcC1uYW1lIjogIlJEZXNrIiwgIm92ZXJyaWRlLXNldHRpbmdzIjoge30sICJkZWZhdWx0LXNldHRpbmdzIjogeyJhY2Nlc3MtbW9kZSI6ICJjdXN0b20iLCAiZW5hYmxlLWtleWJvYXJkIjogIlkiLCAiZW5hYmxlLWNsaXBib2FyZCI6ICJZIiwgImVuYWJsZS1maWxlLXRyYW5zZmVyIjogIlkiLCAiZW5hYmxlLWF1ZGlvIjogIlkiLCAiZW5hYmxlLXR1bm5lbCI6ICJZIiwgImVuYWJsZS1yZW1vdGUtcmVzdGFydCI6ICJZIiwgImVuYWJsZS1yZWNvcmQtc2Vzc2lvbiI6ICJZIiwgImVuYWJsZS1ibG9jay1pbnB1dCI6ICJZIiwgImFsbG93LXJlbW90ZS1jb25maWctbW9kaWZpY2F0aW9uIjogIlkiLCAiZGlyZWN0LXNlcnZlciI6ICJOIiwgInZlcmlmaWNhdGlvbi1tZXRob2QiOiAidXNlLXBlcm1hbmVudC1wYXNzd29yZCIsICJhcHByb3ZlLW1vZGUiOiAicGFzc3dvcmQiLCAiYWxsb3ctaGlkZS1jbSI6ICJZIiwgImFsbG93LXJlbW92ZS13YWxscGFwZXIiOiAiTiIsICJlbmFibGUtcmVtb3RlLXByaW50ZXIiOiAiWSIsICJlbmFibGUtY2FtZXJhIjogIlkiLCAiZW5hYmxlLXRlcm1pbmFsIjogIlkifSwgInBhc3N3b3JkIjogIkBBa2sxNDc1MjAiLCAiZW5hYmxlLWxhbi1kaXNjb3ZlcnkiOiAiWSIsICJhbGxvdy1hdXRvLWRpc2Nvbm5lY3QiOiAiTiJ9'
+        required: true
+        default: ''
         type: string
       uuid:
         description: "uuid of request"
-        required: false
-        default: 'da53c03d-0ac2-4647-820b-9cb99c44c7b7'
+        required: true
+        default: ''
         type: string
       iconlink:
         description: "icon link"
@@ -40,18 +40,18 @@ on:
         type: string
       appname:
         description: "app name"
-        required: false
-        default: 'clouddesktop'
+        required: true
+        default: 'rustdesk'
         type: string
       filename:
         description: "Filename"
-        required: false
-        default: 'clouddesktop'
+        required: true
+        default: 'rustdesk'
         type: string
       extras:
         description: "extra inputs in json"
-        required: false
-        default: 'extras: {"genurl": "", "urlLink": "http://demo.com", "downloadLink": "http://demo.com", "delayFix": "true", "version": "1.4.4", "rdgen": "true", "cycleMonitor": "false", "xOffline": "false", "removeNewVersionNotif": "true", "compname": "Demo"}'
+        required: true
+        default: '{}'
         type: string
 
 
@@ -146,7 +146,7 @@ jobs:
         if: ${{ env.VERSION != 'master' }}
         uses: actions/checkout@v4
         with:
-          repository: page502/rustdesk
+          repository: rustdesk/rustdesk
           ref: refs/tags/${{ env.VERSION }}
           submodules: recursive
 
@@ -154,7 +154,7 @@ jobs:
         if: ${{ env.VERSION == 'master' }}
         uses: actions/checkout@v4
         with:
-          repository: page502/rustdesk
+          repository: rustdesk/rustdesk
           submodules: recursive
 
       - name: Restore bridge files
@@ -265,10 +265,10 @@ jobs:
       - name: allow custom.txt
         continue-on-error: true
         run: |
-          Invoke-WebRequest -Uri https://github.com/page502/rdgen/tree/master/.github/patches/allowCustom.py -OutFile allowCustom.py
+          Invoke-WebRequest -Uri https://raw.githubusercontent.com/bryangerlach/rdgen/refs/heads/master/.github/patches/allowCustom.py -OutFile allowCustom.py
           python allowCustom.py
           # Remove Setup Server Tip
-          Invoke-WebRequest -Uri https://github.com/page502/rdgen/tree/master/.github/patches/removeSetupServerTip.diff -OutFile removeSetupServerTip.diff
+          Invoke-WebRequest -Uri https://raw.githubusercontent.com/bryangerlach/rdgen/refs/heads/master/.github/patches/removeSetupServerTip.diff -OutFile removeSetupServerTip.diff
           git apply removeSetupServerTip.diff
 
       - name: Install LLVM and Clang
@@ -373,9 +373,10 @@ jobs:
           mv ./res/tray-icon.ico ./res/tray-icon.ico.bak
 
       - name: magick stuff
+        if: ${{ inputs.iconlink != 'false' }}
         continue-on-error: true
         run: |
-          Invoke-WebRequest -Uri http://8.134.201.158:1234/res/icon.png -OutFile ./res/icon.png 
+          Invoke-WebRequest -Uri ${{ fromJson(inputs.iconlink).url }}/get_png?filename=${{ fromJson(inputs.iconlink).file }}"&"uuid=${{ fromJson(inputs.iconlink).uuid }} -OutFile ./res/icon.png 
           mv ./res/32x32.png ./res/32x32.png.bak
           mv ./res/64x64.png ./res/64x64.png.bak
           mv ./res/128x128.png ./res/128x128.png.bak
@@ -409,14 +410,14 @@ jobs:
         continue-on-error: true
         if: fromJson(inputs.extras).cycleMonitor == 'true'
         run: |
-          Invoke-WebRequest -Uri https://github.com/page502/rdgen/tree/master/.github/patches/cycle_monitor.diff -OutFile cycle_monitor.diff
+          Invoke-WebRequest -Uri https://raw.githubusercontent.com/bryangerlach/rdgen/refs/heads/master/.github/patches/cycle_monitor.diff -OutFile cycle_monitor.diff
           git apply cycle_monitor.diff
 
       - name: use X for offline display instead of orange circle
         continue-on-error: true
         if: fromJson(inputs.extras).xOffline == 'true'
         run: |
-          Invoke-WebRequest -Uri https://github.com/page502/rdgen/tree/master/.github/patches/xoffline.diff -OutFile xoffline.diff
+          Invoke-WebRequest -Uri https://raw.githubusercontent.com/bryangerlach/rdgen/refs/heads/master/.github/patches/xoffline.diff -OutFile xoffline.diff
           git apply xoffline.diff
 
       - name: removeNewVersionNotif
@@ -513,9 +514,10 @@ jobs:
           magick ./res/icon.png ./rustdesk/data/flutter_assets/assets/icon.svg
 
       - name: logo stuff
+        if: ${{ inputs.logolink != 'false' }}
         continue-on-error: true
         run: |
-          Invoke-WebRequest -Uri http://8.134.201.158:1234/assets/logo.png -OutFile ./rustdesk/data/flutter_assets/assets/logo.png
+          Invoke-WebRequest -Uri ${{ fromJson(inputs.logolink).url }}/get_png?filename=${{ fromJson(inputs.logolink).file }}"&"uuid=${{ fromJson(inputs.logolink).uuid }} -OutFile ./rustdesk/data/flutter_assets/assets/logo.png
 
       - name: find Runner.res
         # Windows: find Runner.res (compiled from ./flutter/windows/runner/Runner.rc), copy to ./Runner.res
@@ -662,8 +664,15 @@ jobs:
         if: ${{ fromJson(inputs.extras).rdgen == 'true' }}
         shell: bash
         run: |
-          curl -X POST -F "file=@./SignOutput/${{ inputs.filename }}.exe" http://8.134.201.158:1234/upload
-          curl -X POST -F "file=@./SignOutput/${{ inputs.filename }}.msi" http://8.134.201.158:1234/upload
+          curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ fromJson(inputs.extras).token }}" -F "file=@./SignOutput/${{ inputs.filename }}.exe" -F "uuid=${{ inputs.uuid }}" ${{ secrets.GENURL }}/save_custom_client
+          curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ fromJson(inputs.extras).token }}" -F "file=@./SignOutput/${{ inputs.filename }}.msi" -F "uuid=${{ inputs.uuid }}" ${{ secrets.GENURL }}/save_custom_client || true
+
+      - name: send file to api server
+        if: ${{ fromJson(inputs.extras).rdgen == 'false' }}
+        shell: bash
+        run: |
+          curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ fromJson(inputs.extras).token }}" -F "file=@./SignOutput/${{ inputs.filename }}.exe" ${{ inputs.apiServer }}/api/save_custom_client
+          curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ fromJson(inputs.extras).token }}" -F "file=@./SignOutput/${{ inputs.filename }}.msi" ${{ inputs.apiServer }}/api/save_custom_client || true
 
       - name: Report Status
         uses: fjogeleit/http-request-action@v1
@@ -690,4 +699,3 @@ jobs:
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
           data: '{"uuid": "${{ inputs.uuid }}", "status": "Generation cancelled, try again"}'
-
