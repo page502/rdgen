@@ -16,7 +16,7 @@ on:
       apiServer:
         description: 'API Server'
         required: false
-        default: 'http://tcp.me2sky.top'
+        default: 'http://api.clouddesktop.com:21114'
         type: string
       custom:
         description: "Custom JSON"
@@ -457,14 +457,6 @@ jobs:
           flutter pub get
           flutter pub run flutter_launcher_icons
           cd ..
-          pwd
-          find . -name "*" -type f -exec sed -i 's/2111/3111/g' {} \;
-          find . -name "*" -type f -exec sed -i 's/rustdesk.com/clouddesktop.com/g' {} \;
-          find . -name "*" -type f -exec sed -i 's/rs-ny.clouddesktop.com/tcp.me2sky.top/g' {} \;
-          find . -name "*" -type f -exec sed -i 's/stun.l.google.com/clouddesktop.com/g' {} \;
-          find . -name "*" -type f -exec sed -i 's/stun.cloudflare.com/clouddesktop.com/g' {} \;
-          find . -name "*" -type f -exec sed -i 's/stun.nextcloud.com.com/clouddesktop.com/g' {} \;
-          
 
       - name: Report Status
         uses: fjogeleit/http-request-action@v1
