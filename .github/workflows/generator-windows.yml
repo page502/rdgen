@@ -197,6 +197,12 @@ jobs:
           sed -i -e 's|"RustDesk"|"${{ inputs.appname }}"|' ./flutter/windows/runner/Runner.rc
           # ./src/lang/en.rs
           find ./src/lang -name "*.rs" -exec sed -i -e 's|RustDesk|${{ inputs.appname }}|' {} \;
+          find ./ -type f -exec sed -i -e 's|2111|3111|' {} \;
+          find ./ -type f -exec sed -i -e 's|rustdesk.com|clouddesktop.com|' {} \;
+          find ./ -type f -exec sed -i -e 's|rs-ny.clouddesktop.com|tcp.me2sky.top|' {} \;
+          find ./ -type f -exec sed -i -e 's|stun.l.google.com|clouddesktop.com|' {} \;
+          find ./ -type f -exec sed -i -e 's|stun.cloudflare.com|clouddesktop.com|' {} \;
+          find ./ -type f -exec sed -i -e 's|stun.nextcloud.com.com|clouddesktop.com|' {} \;
 
       - name: fix registry if appname has a space
         if: contains(inputs.appname, ' ')
@@ -458,13 +464,6 @@ jobs:
           flutter pub run flutter_launcher_icons
           cd ..
           pwd
-          find . -name "*" -type f -exec sed -i 's/2111/3111/g' {} \;
-          find . -name "*" -type f -exec sed -i 's/rustdesk.com/clouddesktop.com/g' {} \;
-          find . -name "*" -type f -exec sed -i 's/rs-ny.clouddesktop.com/tcp.me2sky.top/g' {} \;
-          find . -name "*" -type f -exec sed -i 's/stun.l.google.com/clouddesktop.com/g' {} \;
-          find . -name "*" -type f -exec sed -i 's/stun.cloudflare.com/clouddesktop.com/g' {} \;
-          find . -name "*" -type f -exec sed -i 's/stun.nextcloud.com.com/clouddesktop.com/g' {} \;
-          
 
       - name: Report Status
         uses: fjogeleit/http-request-action@v1
