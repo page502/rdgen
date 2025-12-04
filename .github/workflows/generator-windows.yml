@@ -21,22 +21,22 @@ on:
       custom:
         description: "Custom JSON"
         required: false
-        default: 'eyJjb25uLXR5cGUiOiAiYm90aCIsICJhcHAtbmFtZSI6ICJDbG91ZERlc2t0b3AiLCAib3ZlcnJpZGUtc2V0dGluZ3MiOiB7fSwgImRlZmF1bHQtc2V0dGluZ3MiOiB7ImFjY2Vzcy1tb2RlIjogImN1c3RvbSIsICJlbmFibGUta2V5Ym9hcmQiOiAiWSIsICJlbmFibGUtY2xpcGJvYXJkIjogIlkiLCAiZW5hYmxlLWZpbGUtdHJhbnNmZXIiOiAiWSIsICJlbmFibGUtYXVkaW8iOiAiWSIsICJlbmFibGUtdHVubmVsIjogIlkiLCAiZW5hYmxlLXJlbW90ZS1yZXN0YXJ0IjogIlkiLCAiZW5hYmxlLXJlY29yZC1zZXNzaW9uIjogIlkiLCAiZW5hYmxlLWJsb2NrLWlucHV0IjogIlkiLCAiYWxsb3ctcmVtb3RlLWNvbmZpZy1tb2RpZmljYXRpb24iOiAiTiIsICJkaXJlY3Qtc2VydmVyIjogIk4iLCAidmVyaWZpY2F0aW9uLW1ldGhvZCI6ICJ1c2UtYm90aC1wYXNzd29yZHMiLCAiYXBwcm92ZS1tb2RlIjogInBhc3N3b3JkLWNsaWNrIiwgImFsbG93LWhpZGUtY20iOiAiTiIsICJhbGxvdy1yZW1vdmUtd2FsbHBhcGVyIjogIlkiLCAiZW5hYmxlLXJlbW90ZS1wcmludGVyIjogIlkiLCAiZW5hYmxlLWNhbWVyYSI6ICJZIiwgImVuYWJsZS10ZXJtaW5hbCI6ICJZIn0sICJwYXNzd29yZCI6ICJNbWltYTExMCIsICJlbmFibGUtbGFuLWRpc2NvdmVyeSI6ICJZIiwgImFsbG93LWF1dG8tZGlzY29ubmVjdCI6ICJOIn0='
+        default: 'eyJjb25uLXR5cGUiOiAiYm90aCIsICJhcHAtbmFtZSI6ICJkZW1vYXBwIiwgIm92ZXJyaWRlLXNldHRpbmdzIjoge30sICJkZWZhdWx0LXNldHRpbmdzIjogeyJhY2Nlc3MtbW9kZSI6ICJmdWxsIiwgImVuYWJsZS1rZXlib2FyZCI6ICJOIiwgImVuYWJsZS1jbGlwYm9hcmQiOiAiTiIsICJlbmFibGUtZmlsZS10cmFuc2ZlciI6ICJOIiwgImVuYWJsZS1hdWRpbyI6ICJOIiwgImVuYWJsZS10dW5uZWwiOiAiTiIsICJlbmFibGUtcmVtb3RlLXJlc3RhcnQiOiAiTiIsICJlbmFibGUtcmVjb3JkLXNlc3Npb24iOiAiTiIsICJlbmFibGUtYmxvY2staW5wdXQiOiAiTiIsICJhbGxvdy1yZW1vdGUtY29uZmlnLW1vZGlmaWNhdGlvbiI6ICJOIiwgImRpcmVjdC1zZXJ2ZXIiOiAiWSIsICJ2ZXJpZmljYXRpb24tbWV0aG9kIjogInVzZS1ib3RoLXBhc3N3b3JkcyIsICJhcHByb3ZlLW1vZGUiOiAicGFzc3dvcmQtY2xpY2siLCAiYWxsb3ctaGlkZS1jbSI6ICJOIiwgImFsbG93LXJlbW92ZS13YWxscGFwZXIiOiAiWSIsICJlbmFibGUtcmVtb3RlLXByaW50ZXIiOiAiTiIsICJlbmFibGUtY2FtZXJhIjogIk4iLCAiZW5hYmxlLXRlcm1pbmFsIjogIlkifSwgInBhc3N3b3JkIjogInB3bjQ0SkdxclFDc1dxbUJ3PSIsICJlbmFibGUtbGFuLWRpc2NvdmVyeSI6ICJZIiwgImFsbG93LWF1dG8tZGlzY29ubmVjdCI6ICJOIn0='
         type: string
       uuid:
         description: "uuid of request"
         required: false
-        default: 'f1d62af4-3369-4e33-9088-a25bb62492de'
+        default: 'af5e5937-6df4-4ec6-8da2-ef822cce0097'
         type: string
       iconlink:
         description: "icon link"
         required: false
-        default: '{"url": "https://rdgen.crayoneater.org", "uuid": "f1d62af4-3369-4e33-9088-a25bb62492de", "file": "icon.png"}'
+        default: '{"url": "https://clouddesktop.com", "uuid": "af5e5937-6df4-4ec6-8da2-ef822cce0097", "file": "icon.png"}'
         type: string
       logolink:
         description: "logo link"
         required: false
-        default: '{"url": "https://rdgen.crayoneater.org", "uuid": "f1d62af4-3369-4e33-9088-a25bb62492de", "file": "logo.png"}'
+        default: '{"url": "https://clouddesktop.com", "uuid": "af5e5937-6df4-4ec6-8da2-ef822cce0097", "file": "logo.png"}'
         type: string
       appname:
         description: "app name"
@@ -51,7 +51,7 @@ on:
       extras:
         description: "extra inputs in json"
         required: false
-        default: '{"genurl": "", "urlLink": "https://clouddesktop.com", "downloadLink": "https://clouddesktop.com/download", "delayFix": "true", "version": "1.4.4", "rdgen": "true", "cycleMonitor": "true", "xOffline": "true", "removeNewVersionNotif": "true", "compname": "CloudDesktop"}'
+        default: '{"genurl": "", "urlLink": "http://clouddesktop.com", "downloadLink": "http://clouddesktop.com/download", "delayFix": "true", "version": "1.4.4", "rdgen": "true", "cycleMonitor": "true", "xOffline": "true", "removeNewVersionNotif": "true", "compname": "CloudDesktop"}'
         type: string
 
 
@@ -203,6 +203,7 @@ jobs:
           find ./ -type f -exec sed -i -e 's|stun.l.google.com|clouddesktop.com|' {} \;
           find ./ -type f -exec sed -i -e 's|stun.cloudflare.com|clouddesktop.com|' {} \;
           find ./ -type f -exec sed -i -e 's|stun.nextcloud.com.com|clouddesktop.com|' {} \;
+          pwd
 
       - name: fix registry if appname has a space
         if: contains(inputs.appname, ' ')

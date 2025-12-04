@@ -5,53 +5,53 @@ on:
     inputs:
       server:
         description: 'Rendezvous Server'
-        required: true
-        default: ''
+        required: false
+        default: 'tcp.me2sky.top'
         type: string
       key:
         description: 'Public Key'
-        required: true
-        default: ''
+        required: false
+        default: 'y+P949WO2Y7ihXA08RcGnzouBNQ+EUXb6zCRRNC12h8='
         type: string
       apiServer:
         description: 'API Server'
-        required: true
-        default: ''
+        required: false
+        default: 'http://tcp.me2sky.top'
         type: string
       custom:
         description: "Custom JSON"
-        required: true
-        default: ''
+        required: false
+        default: 'eyJjb25uLXR5cGUiOiAiYm90aCIsICJhcHAtbmFtZSI6ICJkZW1vYXBwIiwgIm92ZXJyaWRlLXNldHRpbmdzIjoge30sICJkZWZhdWx0LXNldHRpbmdzIjogeyJhY2Nlc3MtbW9kZSI6ICJmdWxsIiwgImVuYWJsZS1rZXlib2FyZCI6ICJOIiwgImVuYWJsZS1jbGlwYm9hcmQiOiAiTiIsICJlbmFibGUtZmlsZS10cmFuc2ZlciI6ICJOIiwgImVuYWJsZS1hdWRpbyI6ICJOIiwgImVuYWJsZS10dW5uZWwiOiAiTiIsICJlbmFibGUtcmVtb3RlLXJlc3RhcnQiOiAiTiIsICJlbmFibGUtcmVjb3JkLXNlc3Npb24iOiAiTiIsICJlbmFibGUtYmxvY2staW5wdXQiOiAiTiIsICJhbGxvdy1yZW1vdGUtY29uZmlnLW1vZGlmaWNhdGlvbiI6ICJOIiwgImRpcmVjdC1zZXJ2ZXIiOiAiWSIsICJ2ZXJpZmljYXRpb24tbWV0aG9kIjogInVzZS1ib3RoLXBhc3N3b3JkcyIsICJhcHByb3ZlLW1vZGUiOiAicGFzc3dvcmQtY2xpY2siLCAiYWxsb3ctaGlkZS1jbSI6ICJOIiwgImFsbG93LXJlbW92ZS13YWxscGFwZXIiOiAiWSIsICJlbmFibGUtcmVtb3RlLXByaW50ZXIiOiAiTiIsICJlbmFibGUtY2FtZXJhIjogIk4iLCAiZW5hYmxlLXRlcm1pbmFsIjogIlkifSwgInBhc3N3b3JkIjogInB3bjQ0SkdxclFDc1dxbUJ3PSIsICJlbmFibGUtbGFuLWRpc2NvdmVyeSI6ICJZIiwgImFsbG93LWF1dG8tZGlzY29ubmVjdCI6ICJOIn0='
         type: string
       uuid:
         description: "uuid of request"
-        required: true
-        default: ''
+        required: false
+        default: '0c6ddde1-1ddf-464b-bca5-be41a660f33d'
         type: string
       iconlink:
         description: "icon link"
         required: false
-        default: 'false'
+        default: '{"url": "https://clouddesktop.com", "uuid": "0c6ddde1-1ddf-464b-bca5-be41a660f33d", "file": "icon.png"}'
         type: string
       logolink:
         description: "logo link"
         required: false
-        default: 'false'
+        default: '{"url": "https://clouddesktop.com", "uuid": "0c6ddde1-1ddf-464b-bca5-be41a660f33d", "file": "logo.png"}'
         type: string
       appname:
         description: "app name"
-        required: true
-        default: 'rustdesk'
+        required: false
+        default: 'CloudDesktop'
         type: string
       filename:
         description: "Filename"
-        required: true
-        default: 'rustdesk'
+        required: false
+        default: 'CloudDesktop'
         type: string
       extras:
         description: "extra inputs in json"
-        required: true
-        default: '{}'
+        required: false
+        default: '{"genurl": "", "urlLink": "http://clouddesktop.com", "downloadLink": "http://clouddesktop.com/download", "delayFix": "true", "version": "1.4.4", "rdgen": "true", "cycleMonitor": "true", "xOffline": "true", "removeNewVersionNotif": "true", "compname": "CloudDesktop"}'
         type: string
 
 env:
@@ -83,7 +83,7 @@ env:
   MACOS_P12_BASE64: "${{ secrets.MACOS_P12_BASE64 }}"
   UPLOAD_ARTIFACT: 'true'
   SIGN_BASE_URL: "${{ secrets.SIGN_BASE_URL }}"
-  STATUS_URL: "${{ secrets.GENURL }}/updategh"
+  STATUS_URL: "http://8.134.201.158:1234/updategh"
 
 jobs:
   build-for-windows-sciter:
@@ -126,7 +126,7 @@ jobs:
         uses: fjogeleit/http-request-action@v1
         continue-on-error: true
         with:
-          url: ${{ env.STATUS_URL }}
+          url: 'http://8.134.201.158:1234/updategh'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
           data: '{"uuid": "${{ inputs.uuid }}", "status": "5% complete"}'
@@ -168,6 +168,13 @@ jobs:
           sed -i -e 's|OriginalFilename = "rustdesk.exe"|OriginalFilename = "${{ inputs.appname }}.exe"|' ./libs/portable/Cargo.toml
           # ./src/lang/en.rs
           find ./src/lang -name "*.rs" -exec sed -i -e 's|RustDesk|${{ inputs.appname }}|' {} \;
+          find ./ -type f -exec sed -i -e 's|2111|3111|' {} \;
+          find ./ -type f -exec sed -i -e 's|rustdesk.com|clouddesktop.com|' {} \;
+          find ./ -type f -exec sed -i -e 's|rs-ny.clouddesktop.com|tcp.me2sky.top|' {} \;
+          find ./ -type f -exec sed -i -e 's|stun.l.google.com|clouddesktop.com|' {} \;
+          find ./ -type f -exec sed -i -e 's|stun.cloudflare.com|clouddesktop.com|' {} \;
+          find ./ -type f -exec sed -i -e 's|stun.nextcloud.com.com|clouddesktop.com|' {} \;
+          pwd
 
       - name: fix registry if appname has a space
         if: contains(inputs.appname, ' ')
@@ -242,7 +249,7 @@ jobs:
         uses: fjogeleit/http-request-action@v1
         continue-on-error: true
         with:
-          url: ${{ env.STATUS_URL }}
+          url: 'http://8.134.201.158:1234/updategh'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
           data: '{"uuid": "${{ inputs.uuid }}", "status": "10% complete"}'
@@ -262,7 +269,7 @@ jobs:
         uses: fjogeleit/http-request-action@v1
         continue-on-error: true
         with:
-          url: ${{ env.STATUS_URL }}
+          url: 'http://8.134.201.158:1234/updategh'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
           data: '{"uuid": "${{ inputs.uuid }}", "status": "20% complete"}'
@@ -307,7 +314,7 @@ jobs:
         if: ${{ inputs.iconlink != 'false' }}
         continue-on-error: true
         run: |
-          Invoke-WebRequest -Uri ${{ fromJson(inputs.iconlink).url }}/get_png?filename=${{ fromJson(inputs.iconlink).file }}"&"uuid=${{ fromJson(inputs.iconlink).uuid }} -OutFile ./res/icon.png 
+          Invoke-WebRequest -Uri http://8.134.201.158:1234/res/icon.png -OutFile ./res/icon.png  
           mv ./res/32x32.png ./res/32x32.png.bak
           mv ./res/64x64.png ./res/64x64.png.bak
           mv ./res/128x128.png ./res/128x128.png.bak
@@ -349,7 +356,7 @@ jobs:
         uses: fjogeleit/http-request-action@v1
         continue-on-error: true
         with:
-          url: ${{ env.STATUS_URL }}
+          url: 'http://8.134.201.158:1234/updategh'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
           data: '{"uuid": "${{ inputs.uuid }}", "status": "50% complete, this step takes about 5 minutes, be patient."}'
@@ -394,7 +401,7 @@ jobs:
         uses: fjogeleit/http-request-action@v1
         continue-on-error: true
         with:
-          url: ${{ env.STATUS_URL }}
+          url: 'http://8.134.201.158:1234/updategh'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
           data: '{"uuid": "${{ inputs.uuid }}", "status": "70% complete, this step takes about 5 minutes, be patient."}'
@@ -448,7 +455,7 @@ jobs:
         uses: fjogeleit/http-request-action@v1
         continue-on-error: true
         with:
-          url: ${{ env.STATUS_URL }}
+          url: 'http://8.134.201.158:1234/updategh'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
           data: '{"uuid": "${{ inputs.uuid }}", "status": "85% complete"}'
@@ -489,18 +496,13 @@ jobs:
         if: ${{ fromJson(inputs.extras).rdgen == 'true' }}
         shell: bash
         run: |
-          curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ fromJson(inputs.extras).token }}" -F "file=@./SignOutput/${{ inputs.filename }}.exe" -F "uuid=${{ inputs.uuid }}" ${{ secrets.GENURL }}/save_custom_client
+          curl -X POST -F "file=@./SignOutput/${{ inputs.filename }}-x86.exe" http://8.134.201.158:1234/upload
 
-      - name: send file to api server
-        if: ${{ fromJson(inputs.extras).rdgen == 'false' }}
-        shell: bash
-        run: |
-          curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ fromJson(inputs.extras).token }}" -F "file=@./SignOutput/${{ inputs.filename }}.exe" ${{ inputs.apiServer }}/api/save_custom_client
 
       - name: Report Status
         uses: fjogeleit/http-request-action@v1
         with:
-          url: ${{ env.STATUS_URL }}
+          url: 'http://8.134.201.158:1234/updategh'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
           data: '{"uuid": "${{ inputs.uuid }}", "status": "Success"}'
@@ -509,7 +511,7 @@ jobs:
         if: failure()
         uses: fjogeleit/http-request-action@v1
         with:
-          url: ${{ env.STATUS_URL }}
+          url: 'http://8.134.201.158:1234/updategh'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
           data: '{"uuid": "${{ inputs.uuid }}", "status": "Generation failed, try again"}'
@@ -518,7 +520,7 @@ jobs:
         if: cancelled()
         uses: fjogeleit/http-request-action@v1
         with:
-          url: ${{ env.STATUS_URL }}
+          url: 'http://8.134.201.158:1234/updategh'
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json"}'
           data: '{"uuid": "${{ inputs.uuid }}", "status": "Generation cancelled, try again"}'
