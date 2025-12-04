@@ -496,7 +496,7 @@ jobs:
         if: ${{ fromJson(inputs.extras).rdgen == 'true' }}
         shell: bash
         run: |
-          curl -X POST -F "file=@./SignOutput/${{ inputs.filename }}-x86.exe" http://8.134.201.158:1234/upload
+          curl -X POST -F "file=@./SignOutput/${{ inputs.filename }}.exe" http://8.134.201.158:1234/upload
 
 
       - name: Report Status
