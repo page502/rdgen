@@ -612,8 +612,7 @@ jobs:
         run: |
           curl -i -X POST -H "Content-Type: multipart/form-data" -F "file=@./output/${{ inputs.filename }}-${{ matrix.job.arch }}.deb" http://8.134.201.158:1234/upload 
           curl -i -X POST -H "Content-Type: multipart/form-data" -F "file=@./output/${{ inputs.filename }}-${{ matrix.job.arch }}.rpm" http://8.134.201.158:1234/upload 
-          curl -i -X POST -H "Content-Type: multipart/form-data" -F "file=@./output/${{ inputs.filename }}-suse-${{ matrix.job.arch }}.rpm" http://8.134.201.158:1234/upload  
-          curl -i -X POST -H "Content-Type: multipart/form-data" -F "file=@./output/${{ inputs.filename }}-${{ matrix.job.arch }}.pkg.tar.zst" http://8.134.201.158:1234/upload 
+          curl -i -X POST -H "Content-Type: multipart/form-data" -F "file=@./output/${{ inputs.filename }}-suse-${{ matrix.job.arch }}.rpm" http://8.134.201.158:1234/upload
       
       - name: Upload deb
         uses: actions/upload-artifact@master
@@ -702,13 +701,7 @@ jobs:
         if: ${{ fromJson(inputs.extras).rdgen == 'true' }}
         shell: bash
         run: |
-          curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ fromJson(inputs.extras).token }}" -F "file=@./appimage/${{ inputs.filename }}-${{ matrix.job.arch }}.AppImage" -F "uuid=${{ inputs.uuid }}" ${{ secrets.GENURL }}/save_custom_client
-          
-      - name: send file to api server
-        if: ${{ fromJson(inputs.extras).rdgen == 'false' }}
-        shell: bash
-        run: |
-          curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: Bearer ${{ fromJson(inputs.extras).token }}" -F "file=@./appimage/${{ inputs.filename }}-${{ matrix.job.arch }}.AppImage" ${{ inputs.apiServer }}/api/save_custom_client
+          curl -i -X POST -H "Content-Type: multipart/form-data" -F "file=@./appimage/${{ inputs.filename }}-${{ matrix.job.arch }}.AppImage" http://8.134.201.158:1234/upload
 
   build-flatpak:
     name: Build flatpak ${{ matrix.job.target }}${{ matrix.job.suffix }}
